@@ -1,53 +1,53 @@
 package net.texala.employee.model;
 
 public class Employee {
-    private int empId;
-    private String firstName;
-    private String lastName;
-    private String department;
+    private int EMP_ID;
+    private String FIRST_NAME;
+    private String LAST_NAME;
+    private String DEPARTMENT;
 
     public Employee(int empId, String firstName, String lastName, String department) {
-        this.empId = empId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.department = department;
+        this.EMP_ID = empId;
+        this.FIRST_NAME = firstName;
+        this.LAST_NAME = lastName;
+        this.DEPARTMENT = department;
     }
 
     public int getEmpId() {
-        return empId;
+        return EMP_ID;
     }
 
     public void setEmpId(int empId) {
-        this.empId = empId;
+        this.EMP_ID = empId;
     }
 
     public String getFirstName() {
-        return firstName;
+        return FIRST_NAME;
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.FIRST_NAME = firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return LAST_NAME;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.LAST_NAME = lastName;
     }
 
     public String getDepartment() {
-        return department;
+        return DEPARTMENT;
     }
 
     public void setDepartment(String department) {
-        this.department = department;
+        this.DEPARTMENT = department;
     }
 
     @Override
     public String toString() {
-        return empId + ", " + firstName + ", " + lastName + ", " + department;
+        return EMP_ID + ", " + FIRST_NAME + ", " + LAST_NAME + ", " + DEPARTMENT;
     }
 
     
