@@ -14,24 +14,18 @@ public class DisplayEmployee implements EmployeeOperation {
         boolean validInput = false;
         while (!validInput) {
             try {
-                System.out.println(Constants.DISPLAY_OPTION_ALL);
+            	System.out.println(Constants.ADD_EMPLOYEE_HEADER_TOP);
+            	System.out.println(Constants.DISPLAY_MENU_HEADER);
+                System.out.println(Constants.ADD_EMPLOYEE_HEADER_BOTTOM);
                 System.out.println(Constants.DISPLAY_OPTION_EMPID);
                 System.out.println(Constants.DISPLAY_OPTION_SORTED);
-                System.out.println(Constants.DISPLAY_OPTION_MEMORY); // Add option to display in memory
+                System.out.println(Constants.DISPLAY_OPTION_MEMORY);  
                 System.out.print(Constants.ENTER_CHOICE);
                 int displayOption = scanner.nextInt();
                 scanner.nextLine();
 
                 switch (displayOption) {
                     case 1:
-                        if (manager.displayAllEmployeesInMemory().isEmpty()) {
-                            System.out.println(Constants.NO_DATA_IN_VECTOR);
-                        } else {
-                            manager.displayAllEmployeesInMemory().forEach(System.out::println);
-                        }
-                        validInput = true;
-                        break;
-                    case 2:
                         System.out.println(Constants.ENTER_EMPID);
                         int empId = scanner.nextInt();
                         scanner.nextLine();
@@ -43,12 +37,12 @@ public class DisplayEmployee implements EmployeeOperation {
                         }
                         validInput = true;
                         break;
-                    case 3:
-                        manager.displaySortedEmployeeRecords(scanner);
+                    case 2:
+                        manager.displaySortedRecordsOption(manager, scanner);
                         validInput = true;
                         break;
-                    case 4:
-                        manager.displayAllEmployeesWithOption(scanner); // Handle displaying in memory
+                    case 3:
+                        manager.displayAllEmployeesWithOption(scanner);  
                         validInput = true;
                         break; 
                     default:
