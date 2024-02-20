@@ -6,24 +6,21 @@ import net.texala.employee.service.EmployeeOperation;
 import net.texala.employee.constants.Constants;
 import net.texala.employee.exceptions.EmployeeOperationException;
 
-public class deleteEmployee implements EmployeeOperation {
+public class DeleteEmployee implements EmployeeOperation {
+
     @Override
     public void execute(EmployeeManager manager, Scanner scanner) throws EmployeeOperationException {
         try {
             int choice = manager.getDeletionChoice(scanner);
-            if (choice == 1) {
-                System.out.println(Constants.ENTER_EMPID_TO_DELETE);
-                int empIdToDelete = scanner.nextInt();
-                if (manager.deleteEmployeeById(empIdToDelete)) {
-                    System.out.println(Constants.DELETE_SUCCESS_MESSAGE + empIdToDelete);
-                } else {
-                    System.out.println(Constants.EMPLOYEE_NOT_FOUND_MESSAGE + empIdToDelete);
-                }
-            } else if (choice == 2) {
-                manager.deleteAllEmployees();
-                System.out.println(Constants.DELETE_ALL_SUCCESS_MESSAGE);
-            } else {
-                System.out.println(Constants.INVALID_CHOICE);
+            switch (choice) {
+                case 1:
+                    manager.deleteEmployee(manager, scanner);
+                    break;
+                case 2:
+                    manager.deleteAllEmployees(manager, scanner);
+                    break;
+                default:
+                    System.out.println(Constants.INVALID_CHOICE);
             }
         } catch (Exception e) {
             throw new EmployeeOperationException(Constants.UNEXPECTED_ERROR + e.getMessage());
