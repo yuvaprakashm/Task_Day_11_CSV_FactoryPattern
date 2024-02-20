@@ -27,62 +27,73 @@ public class EmployeeManager {
 		employee = new Vector<>();
 		displayedEmployees = new Vector<>();
 		deletedEmployees = new Vector<>();
-		 loadEmployees();
-		 
-	}
+		loadEmployees();
 
-	 
+	}
 
 	private void loadEmployees() {
-	    try (BufferedReader reader = new BufferedReader(new FileReader(Constants.FILE_NAME))) {
-	        String line;
-	        boolean headerSkipped = false; // Flag to skip the header line
-	        while ((line = reader.readLine()) != null) {
-	            if (!headerSkipped) {
-	                headerSkipped = true;
-	                continue; // Skip the header line
-	            }
-	            if (line.trim().isEmpty()) {
-	                // Skip empty lines
-	                continue;
-	            }
-	            String[] parts = line.split(Constants.CSV_DELIMITER);
-	            if (parts.length == 4) {
-	                try {
-	                    int empId = Integer.parseInt(parts[0].trim());
-	                    String firstName = parts[1].trim();
-	                    String lastName = parts[2].trim();
-	                    String department = parts[3].trim();
-	                    employee.add(new Employee(empId, firstName, lastName, department));
-	                } catch (NumberFormatException e) {
-	                    // Log error for invalid employee ID
-	                    System.out.println("Invalid employee ID in line: " + line);
-	                }
-	            } else {
-	                // Log error for invalid data format
-	                System.out.println("Invalid data format in line: " + line);
-	            }
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Error loading employees: " + e.getMessage());
-	    }
+		File file = new File(Constants.FILE_NAME);
+
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+				System.out.println(Constants.NEW_EMPLOYEES_FILE_CREATED + Constants.FILE_NAME);
+
+			} catch (IOException e) {
+				System.out.println(Constants.ERROR_CREATING_NEW_EMPLOYEES_FILE + e.getMessage());
+
+			}
+			return;
+		}
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+			String line;
+			boolean headerSkipped = false;
+			while ((line = reader.readLine()) != null) {
+				if (!headerSkipped) {
+					headerSkipped = true;
+					continue;
+				}
+				if (line.trim().isEmpty()) {
+
+					continue;
+				}
+				String[] parts = line.split(Constants.CSV_DELIMITER);
+				if (parts.length == 4) {
+					try {
+						int empId = Integer.parseInt(parts[0].trim());
+						String firstName = parts[1].trim();
+						String lastName = parts[2].trim();
+						String department = parts[3].trim();
+						employee.add(new Employee(empId, firstName, lastName, department));
+					} catch (NumberFormatException e) {
+
+						System.out.println(Constants.INVALID_EMPLOYEE_ID_IN_LINE + line);
+
+					}
+				} else {
+
+					System.out.println(Constants.INVALID_DATA_FORMAT_IN_LINE + line);
+
+				}
+			}
+		} catch (IOException e) {
+			System.out.println(Constants.ERROR_LOADING_EMPLOYEES + e.getMessage());
+
+		}
 	}
 
-
-
-
-	 public void saveEmployees() {
-	        try (PrintWriter writer = new PrintWriter(new FileWriter(Constants.FILE_NAME))) {
-	            for (Employee employee : employee) {
-	                writer.println(employee.getEmpId() + Constants.CSV_DELIMITER +
-	                        employee.getFirstName() + Constants.CSV_DELIMITER +
-	                        employee.getLastName() + Constants.CSV_DELIMITER +
-	                        employee.getDepartment());
-	            }
-	        } catch (IOException e) {
-	            System.out.println("Error saving employees: " + e.getMessage());
-	        }
-	    }
+	public void saveEmployees() {
+		try (PrintWriter writer = new PrintWriter(new FileWriter(Constants.FILE_NAME))) {
+			for (Employee employee : employee) {
+				writer.println(employee.getEmpId() + Constants.CSV_DELIMITER + employee.getFirstName()
+						+ Constants.CSV_DELIMITER + employee.getLastName() + Constants.CSV_DELIMITER
+						+ employee.getDepartment());
+			}
+		} catch (IOException e) {
+			System.out.println(Constants.ERROR_SAV_EMP + e.getMessage());
+		}
+	}
 
 	public void addEmployee(int empId, String firstName, String lastName, String department) {
 		if (!isValidName(firstName) && !isValidName(lastName)) {
@@ -109,6 +120,7 @@ public class EmployeeManager {
 		}
 
 		employee.add(new Employee(empId, firstName, lastName, department));
+		System.out.println(Constants.EMP_ADD);
 	}
 
 	private boolean isValidName(String name) {
@@ -134,6 +146,7 @@ public class EmployeeManager {
 
 	public void updateEmployee(int empIdToUpdate, String fieldToUpdate, int newEmpId, String newFirstName,
 			String newLastName, String newDepartment) {
+		boolean employeeFound = false;
 		for (Employee employee : employee) {
 			if (employee.getEmpId() == empIdToUpdate) {
 				employee.setEmpId(newEmpId);
@@ -141,10 +154,13 @@ public class EmployeeManager {
 				employee.setLastName(newLastName);
 				employee.setDepartment(newDepartment);
 				System.out.println(Constants.UPDATE_SUCCESS_MESSAGE);
-				return;
+				employeeFound = true;
+				break;
 			}
 		}
-		System.out.println(Constants.EMPLOYEE_NOT_FOUND_ERROR);
+		if (!employeeFound) {
+			System.out.println(Constants.EMPLOYEE_NOT_FOUND_ERROR);
+		}
 	}
 
 	public void updateEmployee(int empIdToUpdate, String fieldToUpdate, String newValue) {
@@ -169,62 +185,103 @@ public class EmployeeManager {
 				break;
 			}
 		}
-
 		if (!employeeFound) {
-			throw new IllegalArgumentException(Constants.EMPLOYEE_NOT_FOUND_ERROR + empIdToUpdate);
+			System.out.println(Constants.EMPLOYEE_NOT_FOUND_ERROR);
 		}
 	}
 
-	public void deleteEmployees(int empIdToDelete) {
-		if (empIdToDelete != Constants.EMPTY_EMP_ID) {
-			boolean deleted = deleteEmployeeById(empIdToDelete);
-			if (deleted) {
-				System.out.println(Constants.DELETE_SUCCESS_MESSAGE + empIdToDelete);
-			} else {
-				System.out.println(Constants.EMPLOYEE_NOT_FOUND_MESSAGE + empIdToDelete);
-			}
-		} else {
-			employee.clear();
+	public void deleteEmployee(EmployeeManager manager, Scanner scanner) {
+		System.out.println(Constants.ENTER_EMPID_TO_DELETE);
+		int empIdToDelete = scanner.nextInt();
+		scanner.nextLine();
+
+		if (!confirmAction(scanner, Constants.DELETE_EMP)) {
+			System.out.println(Constants.DELETION_CANCELLED_MESSAGE);
+			return;
 		}
+
+		if (manager.deleteEmployeeById(empIdToDelete)) {
+			System.out.println(Constants.DELETE_SUCCESS_MESSAGE + empIdToDelete);
+		} else {
+			System.out.println(Constants.EMPLOYEE_NOT_FOUND_MESSAGE + empIdToDelete);
+		}
+	}
+
+	public void deleteAllEmployees(EmployeeManager manager, Scanner scanner) {
+		if (!confirmAction(scanner, Constants.DELETE_ALL)) {
+			System.out.println(Constants.DELETION_CANCELLED_MESSAGE);
+			return;
+		}
+
+		manager.deleteAllEmployees();
+		System.out.println(Constants.DELETE_ALL_SUCCESS_MESSAGE);
+	}
+
+	private boolean confirmAction(Scanner scanner, String actionDescription) {
+		System.out.println(Constants.CONFIRMATION_PROMPT + actionDescription + Constants.YES_NO_PROMPT);
+		String confirmation = scanner.nextLine().trim().toLowerCase();
+		return confirmation.equals("y");
 	}
 
 	public boolean deleteEmployeeById(int empIdToDelete) {
-        Iterator<Employee> iterator = employee.iterator();
-        while (iterator.hasNext()) {
-            Employee emp = iterator.next();
-            if (emp.getEmpId() == empIdToDelete) {
-                deletedEmployees.add(emp); // Add the deleted employee to the vector
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
-    }
+		Iterator<Employee> iterator = employee.iterator();
+		while (iterator.hasNext()) {
+			Employee emp = iterator.next();
+			if (emp.getEmpId() == empIdToDelete) {
+				deletedEmployees.add(emp);
+				iterator.remove();
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void commitChanges() {
-	    try (PrintWriter writer = new PrintWriter(new FileWriter(Constants.FILE_NAME))) {
-	        writer.println(Constants.EMPLOYEE_HEADER); // Write column headers
-	        for (Employee emp : employee) {
-	            writer.println(emp.getEmpId() + Constants.CSV_DELIMITER +
-	                           emp.getFirstName() + Constants.CSV_DELIMITER +
-	                           emp.getLastName() + Constants.CSV_DELIMITER +
-	                           emp.getDepartment());
-	        }
-	        System.out.println(Constants.COMMIT_SUCCESS_MESSAGE);
-	    } catch (IOException e) {
-	        System.out.println(Constants.COMMIT_ERROR_MESSAGE + e.getMessage());
-	    }
+		try (PrintWriter writer = new PrintWriter(new FileWriter(Constants.FILE_NAME))) {
+			writer.println(Constants.EMPLOYEE_HEADER);
+			for (Employee emp : employee) {
+				writer.println(emp.getEmpId() + Constants.CSV_DELIMITER + emp.getFirstName() + Constants.CSV_DELIMITER
+						+ emp.getLastName() + Constants.CSV_DELIMITER + emp.getDepartment());
+			}
+			System.out.println(Constants.COMMIT_SUCCESS_MESSAGE);
+		} catch (IOException e) {
+			System.out.println(Constants.COMMIT_ERROR_MESSAGE + e.getMessage());
+		}
 	}
 
 	public Vector<Employee> displayAllEmployees() {
-	    System.out.println(Constants.EMPLOYEE_HEADER);
-	    displayedEmployees.clear(); // Clear the existing displayed employees
-	    displayedEmployees.addAll(employee); // Add all employees to the displayed employees
-	    return new Vector<>(displayedEmployees); // Return a copy of the displayed employees
+
+		return new Vector<>(employee);
+	}
+
+	public void displaySortedRecordsOption(EmployeeManager manager, Scanner scanner) {
+		System.out.println(Constants.SORT_BY_PROMPT);
+		System.out.println(Constants.SORT_OPTION_EMPID);
+		System.out.println(Constants.SORT_OPTION_FIRST_NAME);
+		System.out.println(Constants.SORT_OPTION_LAST_NAME);
+		System.out.print(Constants.ENTER_CHOICE_PROMPT);
+
+		int sortOption = scanner.nextInt();
+		scanner.nextLine();
+
+		switch (sortOption) {
+		case 1:
+			manager.displaySortedEmployeeRecords(manager.displayAllEmployees(), Constants.SORT_OPTION_EMPID);
+			break;
+		case 2:
+			manager.displaySortedEmployeeRecords(manager.displayAllEmployees(), Constants.SORT_OPTION_FIRST_NAME);
+			break;
+		case 3:
+			manager.displaySortedEmployeeRecords(manager.displayAllEmployees(), Constants.SORT_OPTION_LAST_NAME);
+			break;
+		default:
+			System.out.println(Constants.IN_VALID);
+			break;
+		}
 	}
 
 	public Employee getEmployeeByEmpId(int empId) {
-
+		System.out.println(Constants.CSV_HEADER);
 		for (Employee emp : employee) {
 			if (emp.getEmpId() == empId) {
 				return emp;
@@ -234,117 +291,84 @@ public class EmployeeManager {
 	}
 
 	public Vector<Employee> getEmployeesByEmpId(int empId) {
-	    Vector<Employee> employeesWithSameId = new Vector<>();
-	    for (Employee emp : displayedEmployees) {
-	        if (emp.getEmpId() == empId) {
-	            employeesWithSameId.add(emp);
-	        }
-	    }
-	    return employeesWithSameId;
+		Vector<Employee> employeesWithSameId = new Vector<>();
+		for (Employee emp : displayedEmployees) {
+			if (emp.getEmpId() == empId) {
+				employeesWithSameId.add(emp);
+			}
+		}
+		return employeesWithSameId;
 	}
+
 	public void deleteAllEmployees() {
 		employee.clear();
 
 	}
 
-	 public void displaySortedEmployeeRecords(Scanner scanner) {
-	        System.out.println(Constants.SORT_BY);
-	        System.out.println(Constants.SORT_OPTION_EMPID);
-	        System.out.println(Constants.SORT_OPTION_FIRST_NAME);
-	        System.out.println(Constants.SORT_OPTION_LAST_NAME);
-	        System.out.print(Constants.ENTER_CHOICE);
+	public void displaySortedEmployeeRecords(Vector<Employee> employees, String sortOption) {
+		Comparator<Employee> comparator = null;
 
-	        int sortOption = scanner.nextInt();
-	        scanner.nextLine();
+		switch (sortOption) {
+		case Constants.SORT_OPTION_EMPID:
+			comparator = Comparator.comparingInt(Employee::getEmpId);
+			break;
+		case Constants.SORT_OPTION_FIRST_NAME:
+			comparator = Comparator.comparing(Employee::getFirstName);
+			break;
+		case Constants.SORT_OPTION_LAST_NAME:
+			comparator = Comparator.comparing(Employee::getLastName);
+			break;
+		default:
+			System.out.println(Constants.INVALID_SORTING_OPTION);
 
-	        Comparator<Employee> comparator;
-
-	        switch (sortOption) {
-	            case 1:
-	                comparator = Comparator.comparingInt(Employee::getEmpId);
-	                break;
-	            case 2:
-	                comparator = Comparator.comparing(Employee::getFirstName);
-	                break;
-	            case 3:
-	                comparator = Comparator.comparing(Employee::getLastName);
-	                break;
-	            default:
-	                System.out.println(Constants.INVALID_OPTION_SELECTED);
-	                return;
-	        }
-
-	        displaySortedRecordsByOption(comparator);
-	    }
-	 public void displaySortedRecordsByOption(Comparator<Employee> comparator) {
-		    Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
-		    Collections.sort(sortedEmployees, comparator);
-		    if (sortedEmployees.isEmpty()) {
-		        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-		    } else {
-		        System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE);
-		        for (Employee emp : sortedEmployees) {
-		            System.out.println(emp);
-		        }
-		        // Store sorted records in a separate CSV file
-		        storeSortedRecordsInCSV(sortedEmployees);
-		    }
+			return;
 		}
 
-//	public void displaySortedRecordsByOption(EmployeeManager manager, Scanner scanner) {
-//	    System.out.println(Constants.SORT_BY);
-//	    System.out.println(Constants.SORT_OPTION_EMPID);
-//	    System.out.println(Constants.SORT_OPTION_FIRST_NAME);
-//	    System.out.println(Constants.SORT_OPTION_LAST_NAME);
-//	    System.out.print(Constants.ENTER_CHOICE);
-//
-//	    int sortOption = scanner.nextInt();
-//	    scanner.nextLine();
-//
-//	    Comparator<Employee> comparator;
-//
-//	    switch (sortOption) {
-//	        case 1:
-//	            comparator = Comparator.comparingInt(Employee::getEmpId);
-//	            break;
-//	        case 2:
-//	            comparator = Comparator.comparing(Employee::getFirstName);
-//	            break;
-//	        case 3:
-//	            comparator = Comparator.comparing(Employee::getLastName);
-//	            break;
-//	        default:
-//	            System.out.println(Constants.INVALID_OPTION_SELECTED);
-//	            return;
-//	    }
-//
-//	    Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
-//	    Collections.sort(sortedEmployees, comparator);
-//	    if (sortedEmployees.isEmpty()) {
-//	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-//	    } else {
-//	        System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE); // <-- Updated line
-//	        for (Employee emp : sortedEmployees) {
-//	            System.out.println(emp);
-//	        }
-//	    }
-//	}
+		Collections.sort(employees, comparator);
 
-	 private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
-		    String sortedFileName = Constants.SORTED_FILE;
-		    try (PrintWriter writer = new PrintWriter(new FileWriter(sortedFileName))) {
-		        writer.println(Constants.CSV_HEADER); // Write CSV header
-		        for (Employee emp : employees) {
-		            writer.println(emp.getEmpId() + Constants.CSV_DELIMITER +
-		                           emp.getFirstName() + Constants.CSV_DELIMITER +
-		                           emp.getLastName() + Constants.CSV_DELIMITER +
-		                           emp.getDepartment());
-		        }
-		        System.out.println(Constants.STORE_SORTED_SUCCESS_MESSAGE + sortedFileName);
-		    } catch (IOException e) {
-		        System.out.println(Constants.STORE_SORTED_ERROR_MESSAGE + e.getMessage());
-		    }
+		if (employees.isEmpty()) {
+			System.out.println(Constants.NO_EMPLOYEES_FOUND);
+
+		} else {
+			System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE);
+
+			for (Employee emp : employees) {
+				System.out.println(emp);
+			}
+
+			storeSortedRecordsInCSV(employees);
 		}
+	}
+
+	public void displaySortedRecordsByOption(Comparator<Employee> comparator) {
+		Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
+		Collections.sort(sortedEmployees, comparator);
+		if (sortedEmployees.isEmpty()) {
+			System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+		} else {
+			System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE);
+			for (Employee emp : sortedEmployees) {
+				System.out.println(emp);
+			}
+
+			storeSortedRecordsInCSV(sortedEmployees);
+		}
+	}
+
+	private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
+
+		String sortedFileName = Constants.SORTED_FILE;
+		try (PrintWriter writer = new PrintWriter(new FileWriter(sortedFileName))) {
+			writer.print(Constants.CSV_HEADER);
+			for (Employee emp : employees) {
+				writer.println(emp.getEmpId() + Constants.CSV_DELIMITER + emp.getFirstName() + Constants.CSV_DELIMITER
+						+ emp.getLastName() + Constants.CSV_DELIMITER + emp.getDepartment());
+			}
+			System.out.println(Constants.STORE_SORTED_SUCCESS_MESSAGE + sortedFileName);
+		} catch (IOException e) {
+			System.out.println(Constants.STORE_SORTED_ERROR_MESSAGE + e.getMessage());
+		}
+	}
 
 	static void Fileexists(String filename) {
 		File file = new File(filename);
@@ -436,56 +460,58 @@ public class EmployeeManager {
 		return choice;
 	}
 
-
-
 	public void displayAllEmployeesWithOption(Scanner scanner) {
-	    System.out.println("1. Display data in memory (vector)");
-	    System.out.println("2. Display data in employee file");
-	    System.out.print("Enter your choice: ");
-	    int choice = scanner.nextInt();
-	    scanner.nextLine(); // Consume newline character
-	    
-	    switch (choice) {
-	        case 1:
-	            displayAllEmployees();
-	            break;
-	        case 2:
-	            displayEmployeesFromFile();
-	            break;
-	        default:
-	            System.out.println("Invalid choice.");
-	    }
+		System.out.println(Constants.VECTOR_DATA);
+		System.out.println(Constants.DIS_DATA);
+		System.out.print(Constants.MENU_OPTION_ENTER_CHOICE);
+		int choice = scanner.nextInt();
+		scanner.nextLine();
+
+		switch (choice) {
+		case 1:
+			displayAllEmployeesInMemory();
+			break;
+		case 2:
+			displayEmployeesFromFile();
+			break;
+		default:
+			System.out.println(Constants.IC);
+		}
 	}
-	
+
 	private void displayEmployeesFromFile() {
 	    try (BufferedReader reader = new BufferedReader(new FileReader(Constants.FILE_NAME))) {
 	        String line;
+	        boolean dataFound = false;
 	        while ((line = reader.readLine()) != null) {
 	            System.out.println(line);
+	            dataFound = true;
+	        }
+	        if (!dataFound) {
+	            System.out.println(Constants.NO_DATA_FOUND_MESSAGE);
 	        }
 	    } catch (IOException e) {
-	        System.out.println("Error reading employee file: " + e.getMessage());
+	        System.out.println(Constants.READ_ERR + e.getMessage());
 	    }
 	}
+
 
 	public Vector<Employee> displayAllEmployeesInMemory() {
-	    System.out.println(Constants.EMPLOYEE_HEADER); // Print column headers
-	    if (employee.isEmpty()) {
-	        System.out.println("No employees found.");
-	    } else {
-	        for (Employee emp : employee) {
-	            System.out.println(emp);
-	        }
-	    }
-	    return new Vector<>(employee);
+		System.out.println(Constants.EMPLOYEE_HEADER);
+		if (employee.isEmpty()) {
+			System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+		} else {
+			for (Employee emp : employee) {
+				System.out.println(emp);
+			}
+		}
+		return new Vector<>(employee);
 	}
 
-
-
 	public void commitAndExit() {
-        saveEmployees(); // Commit changes to the file
-        System.out.println("Changes committed to file. Exiting program...");
-        System.exit(0); // Exit the program
-    }
-	 
+		saveEmployees();
+		System.out.println(Constants.QUIT);
+		System.exit(0);
+	}
+
 }
