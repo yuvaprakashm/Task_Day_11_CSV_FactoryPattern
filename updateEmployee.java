@@ -31,7 +31,7 @@ public class UpdateEmployee implements EmployeeOperation {
                 return;
             }
 
-            System.out.println(Constants.EMPLOYEE_HEADER);
+            
             System.out.println(Constants.UPDATE_OPTION_FIRST_NAME);
             System.out.println(Constants.UPDATE_OPTION_LAST_NAME);
             System.out.println(Constants.UPDATE_OPTION_DEPARTMENT);
