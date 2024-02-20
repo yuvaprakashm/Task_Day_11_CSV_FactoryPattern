@@ -281,7 +281,7 @@ public class EmployeeManager {
 	}
 
 	public Employee getEmployeeByEmpId(int empId) {
-		System.out.println(Constants.CSV_HEADER);
+
 		for (Employee emp : employee) {
 			if (emp.getEmpId() == empId) {
 				return emp;
@@ -480,21 +480,20 @@ public class EmployeeManager {
 	}
 
 	private void displayEmployeesFromFile() {
-	    try (BufferedReader reader = new BufferedReader(new FileReader(Constants.FILE_NAME))) {
-	        String line;
-	        boolean dataFound = false;
-	        while ((line = reader.readLine()) != null) {
-	            System.out.println(line);
-	            dataFound = true;
-	        }
-	        if (!dataFound) {
-	            System.out.println(Constants.NO_DATA_FOUND_MESSAGE);
-	        }
-	    } catch (IOException e) {
-	        System.out.println(Constants.READ_ERR + e.getMessage());
-	    }
+		try (BufferedReader reader = new BufferedReader(new FileReader(Constants.FILE_NAME))) {
+			String line;
+			boolean dataFound = false;
+			while ((line = reader.readLine()) != null) {
+				System.out.println(line);
+				dataFound = true;
+			}
+			if (!dataFound) {
+				System.out.println(Constants.NO_DATA_FOUND_MESSAGE);
+			}
+		} catch (IOException e) {
+			System.out.println(Constants.READ_ERR + e.getMessage());
+		}
 	}
-
 
 	public Vector<Employee> displayAllEmployeesInMemory() {
 		System.out.println(Constants.EMPLOYEE_HEADER);
