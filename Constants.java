@@ -22,7 +22,7 @@ public class Constants {
 	public static final String DUPLICATE_EMPID_ERROR = "Error: Employee with EMPID ";
 	public static final String DUPLICATE_EMPID_LOG = "Duplicate EMPID found: ID = ";
 	public static final String ERROR_WRITING_LOG = "Error writing to error log: ";
-	public static final String UPDATE_SUCCESS_MESSAGE = "Employee details updated successfully.";
+	public static final String UPDATE_SUCCESS_MESSAGE = "Employee details updated successfully to vector.";
 	public static final String EMPLOYEE_NOT_FOUND_ERROR = "Employee not found.";
 	public static final String EMPLOYEE_NOT_FOUND_MESSAGE = "Employee with EMPID not found: ";
 	public static final String DELETE_SUCCESS_MESSAGE = "Employee with EMPID deleted successfully from Vector : ";
@@ -84,9 +84,9 @@ public class Constants {
 	public static final Comparator<Employee> SORT_BY_FIRST_NAME_COMPARATOR = Comparator
 			.comparing(Employee::getFirstName);
 	public static final Comparator<Employee> SORT_BY_LAST_NAME_COMPARATOR = Comparator.comparing(Employee::getLastName);
-	public static final String DISPLAY_OPTION_ALL = "1. Display All Employees";
-	public static final String DISPLAY_OPTION_EMPID = "2. Display Employee by EMPID";
-	public static final String DISPLAY_OPTION_SORTED = "3. Display Sorted Employee Records";
+
+	public static final String DISPLAY_OPTION_EMPID = "1. Display Employee by EMPID";
+	public static final String DISPLAY_OPTION_SORTED = "2. Display Sorted Employee Records";
 	public static final String ENTER_CHOICE = "Enter your choice: ";
 	public static final String INVALID_OPTION_SELECTED = "Invalid option selected.";
 	public static final String NO_EMPLOYEES_FOUND = "No employees found.";
@@ -153,17 +153,47 @@ public class Constants {
 	public static final String LAST_NAME = "lastName";
 	public static final String DEPARTMENT = "department";
 	public static final String ERROR_CSV = "Error writing data to CSV file: ";
-	public static final String UPDATED_SUCCESSFULL = "Employee details updated successfully.";
+	public static final String UPDATED_SUCCESSFULL = "Employee details updated successfully to vector.";
 	public static final String INVALID_EMPLOYEE_ID = "Invalid employee ID. Please enter a valid numeric ID.";
 	public static final String NEW_CSV = "New CSV file created: ";
 	public static final String EMPID = "Employees with ID ";
 	public static final String SEMI = ":";
 	public static final String EMP_NOTFOUND = "No employees found with the specified employee ID.";
-	public static final String DISPLAY_OPTION_MEMORY = "4. Display data in memory vector";
+	public static final String DISPLAY_OPTION_MEMORY = "3. Display data in vector or csv file";
 	public static final String MESSAGE_PROGRAM_TERMINATED = "Terminating the program . . .";
 	public static final String NO_DATA_IN_VECTOR = "No data found in the vector.";
 	public static final String SORTED_EMPLOYEES_MESSAGE = "Sorted employees:";
-
-	
+	public static final String EMP_STM = "|         Employee Management System        |";
+	public static final String LINE = "============================================";
+	public static final String UP_EMP = " Updated Employee Records:";
+	public static final String QUIT = "Exiting the program...";
+	public static final String READ_ERR = "Error reading employee file: ";
+	public static final String IC = "Invalid choice.";
+	public static final String VECTOR_DATA = "1. Display data in vector";
+	public static final String DIS_DATA = "2. Display data in csv file";
+	public static final String IN_VALID = "Invalid sorting option.";
+	public static final String NEW_EMPLOYEES_FILE_CREATED = "New employees file created: ";
+	public static final String ERROR_CREATING_NEW_EMPLOYEES_FILE = "Error creating new employees file: ";
+	public static final String ERROR_LOADING_EMPLOYEES = "Error loading employees: ";
+	public static final String INVALID_EMPLOYEE_ID_IN_LINE = "Invalid employee ID in line: ";
+	public static final String INVALID_DATA_FORMAT_IN_LINE = "Invalid data format in line: ";
+	public static final String ERROR_SAV_EMP = "Error saving employees: ";
+	public static final String EMP_ADD = "Employee data added to vector ";
+	public static final String INVALID_SORTING_OPTION = "Invalid sorting option.";
+	public static final String ENTER_CHOICE_PROMPT = "Enter your choice: ";
+	public static final String SORT_BY_PROMPT = "Sort by:";
+	public static final String CONFIRMATION_PROMPT = "Are you sure you want to ";
+	public static final String YES_NO_PROMPT = "? (y/n)";
+	public static final String DELETION_CANCELLED_MESSAGE = "Deletion cancelled.";
+	public static final String DELETE_EMP = "delete the employee";
+	public static final String DELETE_ALL = "delete all employees";
+	public static final String SLINE ="| ";
+	public static final String ADD_EMPLOYEE_HEADER_TOP = "\n============================================";
+    public static final String ADD_EMPLOYEE_HEADER_MIDDLE = "|          Add New Employee                 |";
+    public static final String ADD_EMPLOYEE_HEADER_BOTTOM = "============================================\n";
+    public static final String COMMIT_EMPLOYEE_HEADER_MIDDLE = "|          Commit Changes                   |";
+    public static final String DISPLAY_MENU_HEADER = "|          Employee Display Menu           |\n";
+    public static final String NO_DATA_FOUND_MESSAGE = "No data found in the file.";
+    
 
 }
