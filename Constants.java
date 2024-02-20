@@ -7,7 +7,7 @@ import net.texala.employee.model.Employee;
 public class Constants {
 
 	public static final String FILE_NAME = "employees.csv";
-	public static final String ERROR_LOG_FILE = "error.log.csv";
+	public static final String ERROR_LOG_FILE = "error.log";
 	public static final String CSV_HEADER = "EmpId,FirstName,LastName,Department\n";
 	public static final String CSV_DELIMITER = ",";
 	public static final String NEW_LINE = "\n";
@@ -25,7 +25,7 @@ public class Constants {
 	public static final String UPDATE_SUCCESS_MESSAGE = "Employee details updated successfully.";
 	public static final String EMPLOYEE_NOT_FOUND_ERROR = "Employee not found.";
 	public static final String EMPLOYEE_NOT_FOUND_MESSAGE = "Employee with EMPID not found: ";
-	public static final String DELETE_SUCCESS_MESSAGE = "Employee with EMPID deleted successfully : ";
+	public static final String DELETE_SUCCESS_MESSAGE = "Employee with EMPID deleted successfully from Vector : ";
 	public static final String COMMIT_SUCCESS_MESSAGE = "Changes committed to CSV.";
 	public static final String COMMIT_ERROR_MESSAGE = "Error committing changes: ";
 	public static final String NO_EMPLOYEES_FOUND_MESSAGE = "No employees found.";
@@ -142,7 +142,7 @@ public class Constants {
 	public static final String DELETE_EMPLOYEE_OPTIONS = "Delete Employee Options:\n1. Delete Specific Employee by EMPID\n2. Delete All Employees";
 	public static final String ENTER_EMPID_TO_DELETE = "Enter EMPID of the employee to delete:";
 	public static final String INVALID_EMPID_MESSAGE = "Invalid EMPID. Please enter a non-negative integer value.";
-	public static final String DELETE_ALL_SUCCESS_MESSAGE = "All employees have been deleted.";
+	public static final String DELETE_ALL_SUCCESS_MESSAGE = "All employees have been deleted from vector .";
 	public static final String INVALID_CHOICE = "Invalid choice. Please enter either 1 or 2.";
 	public static final int FIELD_FIRST_NAME = 1;
 	public static final int FIELD_LAST_NAME = 2;
@@ -159,5 +159,11 @@ public class Constants {
 	public static final String EMPID = "Employees with ID ";
 	public static final String SEMI = ":";
 	public static final String EMP_NOTFOUND = "No employees found with the specified employee ID.";
+	public static final String DISPLAY_OPTION_MEMORY = "4. Display data in memory vector";
+	public static final String MESSAGE_PROGRAM_TERMINATED = "Terminating the program . . .";
+	public static final String NO_DATA_IN_VECTOR = "No data found in the vector.";
+	public static final String SORTED_EMPLOYEES_MESSAGE = "Sorted employees:";
+
+	
 
 }
