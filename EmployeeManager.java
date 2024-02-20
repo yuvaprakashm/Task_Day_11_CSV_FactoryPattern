@@ -247,60 +247,86 @@ public class EmployeeManager {
 
 	}
 
-	public static void displaySortedEmployeeRecords(EmployeeManager manager, Comparator<Employee> comparator) {
-		Vector<Employee> sortedEmployees = new Vector<>(manager.displayAllEmployees());
-		Collections.sort(sortedEmployees, comparator);
-		if (sortedEmployees.isEmpty()) {
-			System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-		} else {
+	 public void displaySortedEmployeeRecords(Scanner scanner) {
+	        System.out.println(Constants.SORT_BY);
+	        System.out.println(Constants.SORT_OPTION_EMPID);
+	        System.out.println(Constants.SORT_OPTION_FIRST_NAME);
+	        System.out.println(Constants.SORT_OPTION_LAST_NAME);
+	        System.out.print(Constants.ENTER_CHOICE);
 
-			 
-			for (Employee emp : sortedEmployees) {
-				System.out.println(emp);
-			}
+	        int sortOption = scanner.nextInt();
+	        scanner.nextLine();
 
-			storeSortedRecordsInCSV(sortedEmployees);
-		}
-	}
+	        Comparator<Employee> comparator;
 
-	public void displaySortedRecordsByOption(EmployeeManager manager, Scanner scanner) {
-	    System.out.println(Constants.SORT_BY);
-	    System.out.println(Constants.SORT_OPTION_EMPID);
-	    System.out.println(Constants.SORT_OPTION_FIRST_NAME);
-	    System.out.println(Constants.SORT_OPTION_LAST_NAME);
-	    System.out.print(Constants.ENTER_CHOICE);
+	        switch (sortOption) {
+	            case 1:
+	                comparator = Comparator.comparingInt(Employee::getEmpId);
+	                break;
+	            case 2:
+	                comparator = Comparator.comparing(Employee::getFirstName);
+	                break;
+	            case 3:
+	                comparator = Comparator.comparing(Employee::getLastName);
+	                break;
+	            default:
+	                System.out.println(Constants.INVALID_OPTION_SELECTED);
+	                return;
+	        }
 
-	    int sortOption = scanner.nextInt();
-	    scanner.nextLine();
-
-	    Comparator<Employee> comparator;
-
-	    switch (sortOption) {
-	        case 1:
-	            comparator = Comparator.comparingInt(Employee::getEmpId);
-	            break;
-	        case 2:
-	            comparator = Comparator.comparing(Employee::getFirstName);
-	            break;
-	        case 3:
-	            comparator = Comparator.comparing(Employee::getLastName);
-	            break;
-	        default:
-	            System.out.println(Constants.INVALID_OPTION_SELECTED);
-	            return;
+	        displaySortedRecordsByOption(comparator);
 	    }
-
-	    Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
-	    Collections.sort(sortedEmployees, comparator);
-	    if (sortedEmployees.isEmpty()) {
-	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-	    } else {
-	        System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE); // <-- Updated line
-	        for (Employee emp : sortedEmployees) {
-	            System.out.println(emp);
+	 public void displaySortedRecordsByOption(Comparator<Employee> comparator) {
+	        Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
+	        Collections.sort(sortedEmployees, comparator);
+	        if (sortedEmployees.isEmpty()) {
+	            System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+	        } else {
+	            System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE); // <-- Updated line
+	            for (Employee emp : sortedEmployees) {
+	                System.out.println(emp);
+	            }
 	        }
 	    }
-	}
+
+//	public void displaySortedRecordsByOption(EmployeeManager manager, Scanner scanner) {
+//	    System.out.println(Constants.SORT_BY);
+//	    System.out.println(Constants.SORT_OPTION_EMPID);
+//	    System.out.println(Constants.SORT_OPTION_FIRST_NAME);
+//	    System.out.println(Constants.SORT_OPTION_LAST_NAME);
+//	    System.out.print(Constants.ENTER_CHOICE);
+//
+//	    int sortOption = scanner.nextInt();
+//	    scanner.nextLine();
+//
+//	    Comparator<Employee> comparator;
+//
+//	    switch (sortOption) {
+//	        case 1:
+//	            comparator = Comparator.comparingInt(Employee::getEmpId);
+//	            break;
+//	        case 2:
+//	            comparator = Comparator.comparing(Employee::getFirstName);
+//	            break;
+//	        case 3:
+//	            comparator = Comparator.comparing(Employee::getLastName);
+//	            break;
+//	        default:
+//	            System.out.println(Constants.INVALID_OPTION_SELECTED);
+//	            return;
+//	    }
+//
+//	    Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
+//	    Collections.sort(sortedEmployees, comparator);
+//	    if (sortedEmployees.isEmpty()) {
+//	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+//	    } else {
+//	        System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE); // <-- Updated line
+//	        for (Employee emp : sortedEmployees) {
+//	            System.out.println(emp);
+//	        }
+//	    }
+//	}
 
 	private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
 		String sortedFileName = Constants.SORTED_FILE;
