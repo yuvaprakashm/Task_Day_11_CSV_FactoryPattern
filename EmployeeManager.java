@@ -13,7 +13,6 @@ import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
-
 import net.texala.employee.constants.Constants;
 import net.texala.employee.model.Employee;
 
@@ -281,7 +280,7 @@ public class EmployeeManager {
 	}
 
 	public Employee getEmployeeByEmpId(int empId) {
-
+		System.out.println(Constants.CSV_HEADER);
 		for (Employee emp : employee) {
 			if (emp.getEmpId() == empId) {
 				return emp;
@@ -326,18 +325,12 @@ public class EmployeeManager {
 
 		Collections.sort(employees, comparator);
 
-		if (employees.isEmpty()) {
-			System.out.println(Constants.NO_EMPLOYEES_FOUND);
-
-		} else {
-			System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE);
-
-			for (Employee emp : employees) {
-				System.out.println(emp);
-			}
-
-			storeSortedRecordsInCSV(employees);
+		System.out.println(Constants.EMPLOYEE_HEADER);
+		for (Employee emp : employees) {
+			System.out.println(emp);
 		}
+
+		storeSortedRecordsInCSV(employees);
 	}
 
 	public void displaySortedRecordsByOption(Comparator<Employee> comparator) {
@@ -356,10 +349,9 @@ public class EmployeeManager {
 	}
 
 	private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
-
 		String sortedFileName = Constants.SORTED_FILE;
 		try (PrintWriter writer = new PrintWriter(new FileWriter(sortedFileName))) {
-			writer.print(Constants.CSV_HEADER);
+			writer.println(Constants.EMPLOYEE_HEADER);
 			for (Employee emp : employees) {
 				writer.println(emp.getEmpId() + Constants.CSV_DELIMITER + emp.getFirstName() + Constants.CSV_DELIMITER
 						+ emp.getLastName() + Constants.CSV_DELIMITER + emp.getDepartment());
@@ -481,6 +473,7 @@ public class EmployeeManager {
 
 	private void displayEmployeesFromFile() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(Constants.FILE_NAME))) {
+
 			String line;
 			boolean dataFound = false;
 			while ((line = reader.readLine()) != null) {
@@ -494,6 +487,17 @@ public class EmployeeManager {
 			System.out.println(Constants.READ_ERR + e.getMessage());
 		}
 	}
+//	private void displayEmployeesFromFile() {
+//	    loadEmployees(); // Load employees from the CSV file
+//	    System.out.println(Constants.EMPLOYEE_HEADER);
+//	    if (employee.isEmpty()) {
+//	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+//	    } else {
+//	        for (Employee emp : employee) {
+//	            System.out.println(emp);
+//	        }
+//	    }	
+//	}
 
 	public Vector<Employee> displayAllEmployeesInMemory() {
 		System.out.println(Constants.EMPLOYEE_HEADER);
@@ -506,6 +510,18 @@ public class EmployeeManager {
 		}
 		return new Vector<>(employee);
 	}
+//	public Vector<Employee> displayAllEmployeesInMemory() {
+//	    loadEmployees(); // Load employees from the CSV file
+//	    System.out.println(Constants.EMPLOYEE_HEADER);
+//	    if (employee.isEmpty()) {
+//	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+//	    } else {
+//	        for (Employee emp : employee) {
+//	            System.out.println(emp);
+//	        }
+//	    }
+//	    return new Vector<>(employee);
+//	}
 
 	public void commitAndExit() {
 		saveEmployees();
