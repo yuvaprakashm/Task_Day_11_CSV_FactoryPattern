@@ -17,26 +17,25 @@ public class Main {
         
         boolean exit = false;
         while (!exit) {
-            // Display menu options
-        	System.out.println("============================================");
-        	System.out.println("|         Employee Management System        |");
-        	System.out.println("============================================");
-        	System.out.println("| " + Constants.MENU_OPTION_ADD);
-        	System.out.println("| " + Constants.MENU_OPTION_UPDATE);
-        	System.out.println("| " + Constants.MENU_OPTION_DELETE);
-        	System.out.println("| " + Constants.MENU_OPTION_DISPLAY);
-        	System.out.println("| " + Constants.MENU_OPTION_COMMIT);
-        	System.out.println("| " + Constants.MENU_OPTION_EXIT);
-        	System.out.println("============================================");
-        	System.out.print(Constants.MENU_OPTION_ENTER_CHOICE);
+            
+            System.out.println(Constants.LINE);
+            System.out.println(Constants.EMP_STM);
+            System.out.println(Constants.LINE);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_ADD);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_UPDATE);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_DELETE);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_DISPLAY);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_COMMIT);
+            System.out.println(Constants.SLINE + Constants.MENU_OPTION_EXIT);
+            System.out.println(Constants.LINE);
+            System.out.print(Constants.MENU_OPTION_ENTER_CHOICE);
             try {
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume newline character
+                scanner.nextLine(); 
 
                 switch (choice) {
                     case Constants.EXIT:
-                    	manager.commitAndExit();
-                       // System.out.println(Constants.MESSAGE_PROGRAM_TERMINATED);// Commit changes before exiting
+                        manager.commitAndExit(); 
                         exit = true;
                         break;
                     default:
@@ -50,7 +49,7 @@ public class Main {
                 }
             } catch (InputMismatchException e) {
                 System.out.println(Constants.ERROR_INVALID_INPUT);
-                scanner.nextLine(); // Consume newline character
+                scanner.nextLine();  
             } catch (EmployeeOperationException e) {
                 System.out.println(e.getMessage());
             }
