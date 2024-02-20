@@ -277,17 +277,19 @@ public class EmployeeManager {
 	        displaySortedRecordsByOption(comparator);
 	    }
 	 public void displaySortedRecordsByOption(Comparator<Employee> comparator) {
-	        Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
-	        Collections.sort(sortedEmployees, comparator);
-	        if (sortedEmployees.isEmpty()) {
-	            System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-	        } else {
-	            System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE); // <-- Updated line
-	            for (Employee emp : sortedEmployees) {
-	                System.out.println(emp);
-	            }
-	        }
-	    }
+		    Vector<Employee> sortedEmployees = new Vector<>(displayedEmployees);
+		    Collections.sort(sortedEmployees, comparator);
+		    if (sortedEmployees.isEmpty()) {
+		        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+		    } else {
+		        System.out.println(Constants.SORTED_EMPLOYEES_MESSAGE);
+		        for (Employee emp : sortedEmployees) {
+		            System.out.println(emp);
+		        }
+		        // Store sorted records in a separate CSV file
+		        storeSortedRecordsInCSV(sortedEmployees);
+		    }
+		}
 
 //	public void displaySortedRecordsByOption(EmployeeManager manager, Scanner scanner) {
 //	    System.out.println(Constants.SORT_BY);
@@ -328,19 +330,21 @@ public class EmployeeManager {
 //	    }
 //	}
 
-	private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
-		String sortedFileName = Constants.SORTED_FILE;
-		try (FileWriter fileWriter = new FileWriter(sortedFileName)) {
-		 fileWriter.write(Constants.CSV_HEADER);
-			for (Employee emp : employees) {
-				fileWriter.write(emp.getEmpId() + Constants.CSV_DELIMITER + emp.getFirstName() + Constants.CSV_DELIMITER
-						+ emp.getLastName() + Constants.CSV_DELIMITER + emp.getDepartment() + Constants.NEW_LINE);
-			}
-			System.out.println(Constants.STORE_SORTED_SUCCESS_MESSAGE + sortedFileName);
-		} catch (IOException e) {
-			System.out.println(Constants.STORE_SORTED_ERROR_MESSAGE + e.getMessage());
+	 private static void storeSortedRecordsInCSV(Vector<Employee> employees) {
+		    String sortedFileName = Constants.SORTED_FILE;
+		    try (PrintWriter writer = new PrintWriter(new FileWriter(sortedFileName))) {
+		        writer.println(Constants.CSV_HEADER); // Write CSV header
+		        for (Employee emp : employees) {
+		            writer.println(emp.getEmpId() + Constants.CSV_DELIMITER +
+		                           emp.getFirstName() + Constants.CSV_DELIMITER +
+		                           emp.getLastName() + Constants.CSV_DELIMITER +
+		                           emp.getDepartment());
+		        }
+		        System.out.println(Constants.STORE_SORTED_SUCCESS_MESSAGE + sortedFileName);
+		    } catch (IOException e) {
+		        System.out.println(Constants.STORE_SORTED_ERROR_MESSAGE + e.getMessage());
+		    }
 		}
-	}
 
 	static void Fileexists(String filename) {
 		File file = new File(filename);
