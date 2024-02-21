@@ -188,7 +188,7 @@ public class EmployeeManager {
 			System.out.println(Constants.EMPLOYEE_NOT_FOUND_ERROR);
 		}
 	}
-
+	  
 	public void deleteEmployee(EmployeeManager manager, Scanner scanner) {
 		System.out.println(Constants.ENTER_EMPID_TO_DELETE);
 		int empIdToDelete = scanner.nextInt();
@@ -487,31 +487,36 @@ public class EmployeeManager {
 			System.out.println(Constants.READ_ERR + e.getMessage());
 		}
 	}
-//	private void displayEmployeesFromFile() {
-//	    loadEmployees(); // Load employees from the CSV file
-//	    System.out.println(Constants.EMPLOYEE_HEADER);
-//	    if (employee.isEmpty()) {
-//	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-//	    } else {
-//	        for (Employee emp : employee) {
-//	            System.out.println(emp);
-//	        }
-//	    }	
-//	}
+	 
 
-	public Vector<Employee> displayAllEmployeesInMemory() {
-		System.out.println(Constants.EMPLOYEE_HEADER);
-		if (employee.isEmpty()) {
-			System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
-		} else {
-			for (Employee emp : employee) {
-				System.out.println(emp);
-			}
-		}
-		return new Vector<>(employee);
-	}
 //	public Vector<Employee> displayAllEmployeesInMemory() {
-//	    loadEmployees(); // Load employees from the CSV file
+//		System.out.println(Constants.EMPLOYEE_HEADER);
+//		if (employee.isEmpty()) {
+//			System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+//		} else {
+//			for (Employee emp : employee) {
+//				System.out.println(emp);
+//			}
+//		}
+//		return new Vector<>(employee);
+//	}
+	public Vector<Employee> displayAllEmployeesInMemory() {
+	    // Load employees from the CSV file
+	    System.out.println(Constants.EMPLOYEE_HEADER);
+	    if (employee.isEmpty()) {
+	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
+	    } else {
+	        for (Employee emp : employee) {
+	            System.out.println(emp);
+	        }
+	    }
+	    return new Vector<>(employee);
+	}
+	// Modify your displayEmployeesFromFile method to return the loaded data instead of printing it directly
+	 
+
+	// Modify your displayAllEmployeesInMemory method to take a Vector<Employee> parameter and print its contents
+//	public void displayAllEmployeesInMemory() {
 //	    System.out.println(Constants.EMPLOYEE_HEADER);
 //	    if (employee.isEmpty()) {
 //	        System.out.println(Constants.NO_EMPLOYEES_FOUND_MESSAGE);
@@ -520,12 +525,12 @@ public class EmployeeManager {
 //	            System.out.println(emp);
 //	        }
 //	    }
-//	    return new Vector<>(employee);
 //	}
 
 	public void commitAndExit() {
 		saveEmployees();
 		System.out.println(Constants.QUIT);
+		deleteAllEmployees();
 		System.exit(0);
 	}
 
