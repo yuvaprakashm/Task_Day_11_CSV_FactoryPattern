@@ -8,7 +8,7 @@ public class Constants {
 
 	public static final String FILE_NAME = "employees.csv";
 	public static final String ERROR_LOG_FILE = "error.log";
-	public static final String CSV_HEADER = "EmpId,FirstName,LastName,Department\n";
+	public static final String CSV_HEADER = "EmpId,FirstName,LastName,Department";
 	public static final String CSV_DELIMITER = ",";
 	public static final String NEW_LINE = "\n";
 	public static final String NAME_REGEX = "[a-zA-Z]+";
