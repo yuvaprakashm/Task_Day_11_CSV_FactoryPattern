@@ -3,9 +3,9 @@ package net.texala.employee.impl;
 import java.util.Scanner;
 import net.texala.employee.manager.EmployeeManager;
 import net.texala.employee.service.EmployeeOperation;
-import net.texala.employee.constants.Constants;
 import net.texala.employee.exceptions.EmployeeOperationException;
-
+import static net.texala.employee.constants.Constants.INVALID_CHOICE;
+import static net.texala.employee.constants.Constants.UNEXPECTED_ERROR;
 public class DeleteEmployee implements EmployeeOperation {
 
     @Override
@@ -20,10 +20,10 @@ public class DeleteEmployee implements EmployeeOperation {
                     manager.deleteAllEmployees(manager, scanner);
                     break;
                 default:
-                    System.out.println(Constants.INVALID_CHOICE);
+                    System.out.println(INVALID_CHOICE);
             }
         } catch (Exception e) {
-            throw new EmployeeOperationException(Constants.UNEXPECTED_ERROR + e.getMessage());
+            throw new EmployeeOperationException(UNEXPECTED_ERROR + e.getMessage());
         }
     }
 }
