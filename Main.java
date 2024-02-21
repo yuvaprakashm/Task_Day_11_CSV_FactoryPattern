@@ -3,11 +3,23 @@ package net.texala.employee.main;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import net.texala.employee.constants.Constants;
 import net.texala.employee.exceptions.EmployeeOperationException;
 import net.texala.employee.factory.EmployeeFactory;
 import net.texala.employee.manager.EmployeeManager;
 import net.texala.employee.service.EmployeeOperation;
+import static net.texala.employee.constants.Constants.LINE;
+import static net.texala.employee.constants.Constants.EMP_STM;
+import static net.texala.employee.constants.Constants.SLINE;
+import static net.texala.employee.constants.Constants.MENU_OPTION_ENTER_CHOICE;
+import static net.texala.employee.constants.Constants.MENU_OPTION_ADD;
+import static net.texala.employee.constants.Constants.MENU_OPTION_UPDATE;
+import static net.texala.employee.constants.Constants.MENU_OPTION_DELETE;
+import static net.texala.employee.constants.Constants.MENU_OPTION_DISPLAY;
+import static net.texala.employee.constants.Constants.MENU_OPTION_COMMIT;
+import static net.texala.employee.constants.Constants.MENU_OPTION_EXIT;
+import static net.texala.employee.constants.Constants.EXIT;
+import static net.texala.employee.constants.Constants.ERROR_INVALID_CHOICE;
+import static net.texala.employee.constants.Constants.ERROR_INVALID_INPUT;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,24 +30,25 @@ public class Main {
         boolean exit = false;
         while (!exit) {
             
-            System.out.println(Constants.LINE);
-            System.out.println(Constants.EMP_STM);
-            System.out.println(Constants.LINE);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_ADD);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_UPDATE);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_DELETE);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_DISPLAY);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_COMMIT);
-            System.out.println(Constants.SLINE + Constants.MENU_OPTION_EXIT);
-            System.out.println(Constants.LINE);
-            System.out.print(Constants.MENU_OPTION_ENTER_CHOICE);
+            System.out.println(LINE);
+            System.out.println(EMP_STM);
+            System.out.println(LINE);
+            System.out.println(SLINE + MENU_OPTION_ADD);
+            System.out.println(SLINE + MENU_OPTION_UPDATE);
+            System.out.println(SLINE + MENU_OPTION_DELETE);
+            System.out.println(SLINE + MENU_OPTION_DISPLAY);
+            System.out.println(SLINE + MENU_OPTION_COMMIT);
+            System.out.println(SLINE + MENU_OPTION_EXIT);
+            System.out.println(LINE);
+            System.out.print(MENU_OPTION_ENTER_CHOICE);
             try {
                 int choice = scanner.nextInt();
                 scanner.nextLine(); 
 
                 switch (choice) {
-                    case Constants.EXIT:
+                    case EXIT:
                         manager.commitAndExit(); 
+                        
                         exit = true;
                         break;
                     default:
@@ -43,12 +56,12 @@ public class Main {
                         if (operation != null) {
                             operation.execute(manager, scanner);
                         } else {
-                            System.out.println(Constants.ERROR_INVALID_CHOICE);
+                            System.out.println(ERROR_INVALID_CHOICE);
                         }
                         break;
                 }
             } catch (InputMismatchException e) {
-                System.out.println(Constants.ERROR_INVALID_INPUT);
+                System.out.println(ERROR_INVALID_INPUT);
                 scanner.nextLine();  
             } catch (EmployeeOperationException e) {
                 System.out.println(e.getMessage());
