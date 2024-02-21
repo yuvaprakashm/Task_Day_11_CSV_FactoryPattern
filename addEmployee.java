@@ -13,7 +13,6 @@ import static net.texala.employee.constants.Constants.ENTER_FIRST_NAME;
 import static net.texala.employee.constants.Constants.ENTER_LAST_NAME;
 import static net.texala.employee.constants.Constants.ERROR_ADD_EMPLOYEE;
 
-
 public class AddEmployee implements EmployeeOperation {
     @Override
     public void execute(EmployeeManager manager, Scanner scanner) throws EmployeeOperationException {
