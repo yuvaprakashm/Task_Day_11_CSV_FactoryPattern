@@ -147,7 +147,7 @@ public class Constants {
 	public static final int FIELD_FIRST_NAME = 1;
 	public static final int FIELD_LAST_NAME = 2;
 	public static final int FIELD_DEPARTMENT = 3;
-	public static final int UPDATE__ALL = 4;
+	public static final int UPDATE_ALL = 4;
 	public static final String EMP_ID = "empId";
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
@@ -157,7 +157,6 @@ public class Constants {
 	public static final String INVALID_EMPLOYEE_ID = "Invalid employee ID. Please enter a valid numeric ID.";
 	public static final String NEW_CSV = "New CSV file created: ";
 	public static final String EMPID = "Employees with ID ";
-	public static final String SEMI = ":";
 	public static final String EMP_NOTFOUND = "No employees found with the specified employee ID.";
 	public static final String DISPLAY_OPTION_MEMORY = "3. Display data in vector or csv file";
 	public static final String MESSAGE_PROGRAM_TERMINATED = "Terminating the program . . .";
@@ -165,8 +164,8 @@ public class Constants {
 	public static final String SORTED_EMPLOYEES_MESSAGE = "Sorted employees:";
 	public static final String EMP_STM = "|         Employee Management System        |";
 	public static final String LINE = "============================================";
-	public static final String UP_EMP = " Updated Employee Records:";
-	public static final String QUIT = "Exiting the program...";
+	public static final String UP_EMP = "Updated Employee Records:";
+	public static final String QUIT = "Terminating the program...";
 	public static final String READ_ERR = "Error reading employee file: ";
 	public static final String IC = "Invalid choice.";
 	public static final String VECTOR_DATA = "1. Display data in vector";
@@ -192,8 +191,8 @@ public class Constants {
     public static final String ADD_EMPLOYEE_HEADER_MIDDLE = "|          Add New Employee                 |";
     public static final String ADD_EMPLOYEE_HEADER_BOTTOM = "============================================\n";
     public static final String COMMIT_EMPLOYEE_HEADER_MIDDLE = "|          Commit Changes                   |";
-    public static final String DISPLAY_MENU_HEADER = "|          Employee Display Menu           |\n";
+    public static final String DISPLAY_MENU_HEADER = "|          Employee Display Menu           |";
     public static final String NO_DATA_FOUND_MESSAGE = "No data found in the file.";
+    public static final String SEMI = ": ";
     
-
 }
