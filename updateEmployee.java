@@ -63,7 +63,7 @@ public class UpdateEmployee implements EmployeeOperation {
                 }
             }
 
-            Employee employeeToUpdate = manager.getEmployeeByEmpoyeeId(empIdToUpdate);
+            Employee employeeToUpdate = manager.getEmpByEmpId(empIdToUpdate);
             if (employeeToUpdate == null) {
                 System.out.println(String.format(EMPLOYEE_NOT_FOUND, empIdToUpdate));
                 return;
